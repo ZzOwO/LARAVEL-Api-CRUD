@@ -8,18 +8,27 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    public function index(){
-        $tags=Tag::all();
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    public function index()
+    {
+        $tags = Tag::all();
         //return $tags;
         return response()->json($tags);
     }
 
-    public function show(Tag $tag){
-        $tag=Tag::find($tag);
+    public function show(Tag $tag)
+    {
+        $tag = Tag::find($tag);
         return response()->json($tag);
     }
 
-    public function store(TagPostRequest $request){
+    public function store(TagPostRequest $request)
+    {
         $tag = Tag::create($request->all());
 
         return response()->json([
@@ -28,7 +37,8 @@ class TagController extends Controller
         ], 200);
     }
 
-    public function update(TagPostRequest $request, tag $tag){
+    public function update(TagPostRequest $request, tag $tag)
+    {
         $tag->update($request->all());
 
         return response()->json([
@@ -37,7 +47,8 @@ class TagController extends Controller
         ], 200);
     }
 
-    public function destroy(tag $tag){
+    public function destroy(tag $tag)
+    {
         $tag->delete();
         return response()->json([
             'message' => "record deleted successfully!",
